@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WNCT / GTT Job Card Sign Off</title>
+  <style>
+    body {
+      background-color: #001f3f;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      background-color: #003366;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 750px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      box-sizing: border-box;
+    }
+    .inline {
+      display: flex;
+      gap: 10px;
+    }
+    .inline > div {
+      flex: 1;
+    }
+    .fluid-grid {
+      display: none;
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #0074D9;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    img.logo {
+      display: block;
+      max-width: 180px;
+      margin: 0 auto 20px;
+    }
+  </style>
+  <script>
+    function toggleConditionalFields(value) {
+      const disableFields = !["Inspection A", "Inspection B", "Inspection C"].includes(value);
+      document.getElementById("psvar").disabled = disableFields;
+      document.getElementById("brake").disabled = disableFields;
+      document.getElementById("wheel").disabled = disableFields;
+
+      document.getElementById("psvar").required = !disableFields;
+      document.getElementById("brake").required = !disableFields;
+      document.getElementById("wheel").required = !disableFields;
+    }
+
+    window.onload = function () {
+      document.getElementById("workType").addEventListener("change", function () {
+        toggleConditionalFields(this.value);
+      });
+
+      document.getElementById("fluidsUsed").addEventListener("change", function () {
+        document.getElementById("fluidInputs").style.display = this.value === "Yes" ? "grid" : "none";
+      });
+    };
+  </script>
+</head>
+<body>
+  <form action="https://script.google.com/macros/s/AKfycbyTdZOSm0pfK29bwuO9COvxOTQwoVUFW5wEjrF21ZKvgKAVWkEmz9FOdhnbWJXZ9Ee8/exec" method="POST">
+    <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Company Logo" class="logo" />
+    <h2>WNCT / GTT Job Card Sign Off</h2>
+
+    <label>Vehicle Registration *</label>
+    <input type="text" name="Vehicle Registration" required>
+
+    <label>Vehicle Mileage *</label>
+    <input type="number" name="Vehicle Mileage" required>
+
+    <label>Disc Number and Expiry *</label>
+    <div class="inline">
+      <div><input type="text" name="Disc Number" placeholder="Disc Number" required></div>
+      <div><input type="date" name="Disc Expiry Date" required></div>
+    </div>
+
+    <label>Date of Job *</label>
+    <input type="date" name="Date of Job" required>
+
+    <label>Vehicle Type *</label>
+    <select name="Vehicle Type" required>
+      <option value="">-- Select --</option>
+      <option value="WNCT">WNCT</option>
+      <option value="GTT">GTT</option>
+    </select>
+
+    <label>What has been completed? *</label>
+    <select name="Work Completed" id="workType" required>
+      <option value="">-- Select --</option>
+      <option value="Inspection A">Inspection A</option>
+      <option value="Inspection B">Inspection B</option>
+      <option value="Inspection C">Inspection C</option>
+      <option value="Repair">Repair</option>
+      <option value="Defect">Defect</option>
+      <option value="Daily Checks">Daily Checks</option>
+    </select>
+
+    <label for="psvar">PSVAR Check *</label>
+    <select name="PSVAR Check" id="psvar" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="Not Applicable">Not Applicable</option>
+    </select>
+
+    <label for="brake">Brake Test Result *</label>
+    <select name="Brake Test" id="brake" required>
+      <option value="">-- Select --</option>
+      <option value="✅ PASS">✅ PASS</option>
+      <option value="❌ FAIL">❌ FAIL</option>
+      <option value="❓ NOT APPLICABLE">❓ NOT APPLICABLE</option>
+    </select>
+
+    <label for="wheel">Wheel Alignment *</label>
+    <select name="Wheel Alignment" id="wheel" required>
+      <option value="">-- Select --</option>
+      <option value="YES">YES</option>
+      <option value="NO">NO</option>
+      <option value="NOT APPLICABLE">NOT APPLICABLE</option>
+    </select>
+
+    <label>Was Fluids Used? *</label>
+    <select name="Fluids Used?" id="fluidsUsed" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <div id="fluidInputs" class="fluid-grid">
+      <div><label>Screenwash (ltr)</label><input type="number" name="Screenwash (ltr)" min="0" step="0.1"></div>
+      <div><label>Oil (ltr)</label><input type="number" name="Oil (ltr)" min="0" step="0.1"></div>
+      <div><label>Ad Blue (ltr)</label><input type="number" name="Ad Blue (ltr)" min="0" step="0.1"></div>
+      <div><label>Brake Fluid (ltr)</label><input type="number" name="Brake Fluid (ltr)" min="0" step="0.1"></div>
+      <div><label>Gearbox Oil (ltr)</label><input type="number" name="Gearbox Oil (ltr)" min="0" step="0.1"></div>
+      <div><label>Antifreeze (ltr)</label><input type="number" name="Antifreeze (ltr)" min="0" step="0.1"></div>
+    </div>
+
+    <label>Job Details *</label>
+    <textarea name="Work Details" rows="4" required></textarea>
+
+    <label>Job Signed Off By *</label>
+    <select name="Signed Off By" required>
+      <option value="">-- Select --</option>
+      <option value="Barry Baxter">Barry Baxter</option>
+      <option value="Andrew Cunningham">Andrew Cunningham</option>
+      <option value="Workshop Manager">Workshop Manager</option>
+    </select>
+
+    <button type="submit">Submit Job Card</button>
+  </form>
+</body>
+</html>
