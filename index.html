@@ -75,7 +75,6 @@
       document.getElementById("psvar").disabled = disableFields;
       document.getElementById("brake").disabled = disableFields;
       document.getElementById("wheel").disabled = disableFields;
-
       document.getElementById("psvar").required = !disableFields;
       document.getElementById("brake").required = !disableFields;
       document.getElementById("wheel").required = !disableFields;
@@ -93,7 +92,7 @@
   </script>
 </head>
 <body>
-  <form action="https://script.google.com/macros/s/AKfycbxYf1MrDSz1uz6FOH3KiTntmbvA_nv5UwoJlC6Rxo3WYStX-lEN_dUTfriYbpoRORXC/exec" method="POST" method="POST">
+  <form action="https://script.google.com/macros/s/AKfycbxYf1MrDSz1uz6FOH3KiTntmbvA_nv5UwoJlC6Rxo3WYStX-lEN_dUTfriYbpoRORXC/exec" method="POST">
     <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Company Logo" class="logo" />
     <h2>WNCT / GTT Job Card Sign Off</h2>
 
@@ -170,15 +169,13 @@
       <div><label>Antifreeze (ltr)</label><input type="number" name="Antifreeze (ltr)" min="0" step="0.1"></div>
     </div>
 
-    
     <label>Time Allocated To This Job *</label>
     <div class="inline">
-      <div><input type="number" name="Hours Allocated" placeholder="Hours" min="0" required></div>
-      <div><input type="number" name="Minutes Allocated" placeholder="Minutes" min="0" max="59" required></div>
+      <div><input type="number" name="Hours Allocated" id="Hours Allocated" placeholder="Hours" min="0" required></div>
+      <div><input type="number" name="Minutes Allocated" id="Minutes Allocated" placeholder="Minutes" min="0" max="59" required></div>
     </div>
 
     <label>Job Details *</label>
-    
     <textarea name="Work Details" rows="4" required></textarea>
 
     <label>Job Signed Off By *</label>
