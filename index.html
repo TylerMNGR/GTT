@@ -171,11 +171,12 @@
     </div>
 
     <label>Roadworthiness Status *</label>
-    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
-      <label><input type="radio" name="Roadworthiness Status" value="Roadworthy" required> Roadworthy</label>
-      <label><input type="radio" name="Roadworthiness Status" value="Unroadworthy - Awaiting Repair"> Unroadworthy - Awaiting Repair</label>
-      <label><input type="radio" name="Roadworthiness Status" value="VOR"> VOR</label>
-    </div>
+    <select name="Roadworthiness Status" required>
+      <option value="">-- Select --</option>
+      <option value="Roadworthy">Roadworthy</option>
+      <option value="Unroadworthy - Awaiting Repair">Unroadworthy - Awaiting Repair</option>
+      <option value="VOR">VOR</option>
+    </select>
 
     <button type="submit">Submit Job Card</button>
   </form>
