@@ -159,17 +159,22 @@
       <option value="Workshop Manager">Workshop Manager</option>
     </select>
 
-    <label>Hours Allocated *</label>
-    <input type="number" name="Hours Allocated" min="0" required>
-
-    <label>Minutes Allocated *</label>
-    <input type="number" name="Minutes Allocated" min="0" max="59" required>
+    <div class="inline">
+      <div>
+        <label>Hours Allocated *</label>
+        <input type="number" name="Hours Allocated" min="0" required>
+      </div>
+      <div>
+        <label>Minutes Allocated *</label>
+        <input type="number" name="Minutes Allocated" min="0" max="59" required>
+      </div>
+    </div>
 
     <label>Roadworthiness Status *</label>
-    <div>
-      <input type="radio" name="Roadworthiness Status" value="Roadworthy" required> Roadworthy<br>
-      <input type="radio" name="Roadworthiness Status" value="Unroadworthy - Awaiting Repair"> Unroadworthy - Awaiting Repair<br>
-      <input type="radio" name="Roadworthiness Status" value="VOR"> VOR
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
+      <label><input type="radio" name="Roadworthiness Status" value="Roadworthy" required> Roadworthy</label>
+      <label><input type="radio" name="Roadworthiness Status" value="Unroadworthy - Awaiting Repair"> Unroadworthy - Awaiting Repair</label>
+      <label><input type="radio" name="Roadworthiness Status" value="VOR"> VOR</label>
     </div>
 
     <button type="submit">Submit Job Card</button>
