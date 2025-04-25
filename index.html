@@ -4,12 +4,7 @@
   <meta charset="UTF-8" />
   <title>WNCT / GTT Job Card Sign Off</title>
   <style>
-    body {
-      background-color: #001f3f;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+    body { background-color: #001f3f; color: white; font-family: Arial, sans-serif; padding: 20px; }
     form {
       background-color: #003366;
       padding: 20px;
@@ -17,30 +12,14 @@
       max-width: 750px;
       margin: auto;
     }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
     input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: none;
-      box-sizing: border-box;
+      width: 100%; padding: 10px; margin-top: 5px;
+      border-radius: 5px; border: none; box-sizing: border-box;
     }
-    .inline {
-      display: flex;
-      gap: 10px;
-    }
-    .inline > div {
-      flex: 1;
-    }
+    .inline { display: flex; gap: 10px; }
+    .inline > div { flex: 1; }
     .fluid-grid {
       display: none;
       margin-top: 15px;
@@ -49,19 +28,15 @@
       gap: 10px;
     }
     button {
-      margin-top: 25px;
-      width: 100%;
+      margin-top: 25px; width: 100%;
       padding: 12px;
       background-color: #0074D9;
       color: white;
       font-size: 16px;
-      border: none;
-      border-radius: 5px;
+      border: none; border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #005fa3;
-    }
+    button:hover { background-color: #005fa3; }
     img.logo {
       display: block;
       max-width: 180px;
@@ -71,6 +46,22 @@
   <script>
     function toggleFluids(value) {
       document.getElementById('fluidGrid').style.display = value === 'Yes' ? 'grid' : 'none';
+    }
+
+    function handleJobTypeChange(select) {
+      const value = select.value;
+      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment"];
+      disableFields.forEach(id => {
+        const field = document.getElementById(id);
+        if (["Defect", "Daily Checks", "Repair"].includes(value)) {
+          field.disabled = true;
+          field.required = false;
+          field.value = "";
+        } else {
+          field.disabled = false;
+          field.required = true;
+        }
+      });
     }
   </script>
 </head>
@@ -85,11 +76,16 @@
     <label>Vehicle Mileage *</label>
     <input type="number" name="Vehicle Mileage" required>
 
-    <label>Disc Number *</label>
-    <input type="text" name="Disc Number" required>
-
-    <label>Disc Expiry Date *</label>
-    <input type="date" name="Disc Expiry Date" required>
+    <div class="inline">
+      <div>
+        <label>Disc Number *</label>
+        <input type="text" name="Disc Number" required>
+      </div>
+      <div>
+        <label>Disc Expiry Date *</label>
+        <input type="date" name="Disc Expiry Date" required>
+      </div>
+    </div>
 
     <label>Date of Job *</label>
     <input type="date" name="Date of Job" required>
@@ -102,7 +98,7 @@
     </select>
 
     <label>Work Completed *</label>
-    <select name="Work Completed" required>
+    <select name="Work Completed" onchange="handleJobTypeChange(this)" required>
       <option value="">-- Select --</option>
       <option value="A">Inspection A</option>
       <option value="B">Inspection B</option>
@@ -113,7 +109,7 @@
     </select>
 
     <label>PSVAR Check *</label>
-    <select name="PSVAR Check" required>
+    <select id="PSVAR Check" name="PSVAR Check" required>
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
@@ -121,7 +117,7 @@
     </select>
 
     <label>Brake Test *</label>
-    <select name="Brake Test" required>
+    <select id="Brake Test" name="Brake Test" required>
       <option value="">-- Select --</option>
       <option value="Pass">Pass</option>
       <option value="Fail">Fail</option>
@@ -129,7 +125,7 @@
     </select>
 
     <label>Wheel Alignment *</label>
-    <select name="Wheel Alignment" required>
+    <select id="Wheel Alignment" name="Wheel Alignment" required>
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
@@ -177,9 +173,6 @@
     </div>
 
     <button type="submit">Submit Job Card</button>
-  </form>
-</body>
-</html>
   </form>
 </body>
 </html>
