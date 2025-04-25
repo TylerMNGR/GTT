@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WNCT / GTT Job Card Sign Off</title>
   <style>
     body { background-color: #001f3f; color: white; font-family: Arial, sans-serif; padding: 20px; }
@@ -20,13 +21,6 @@
     }
     .inline { display: flex; gap: 10px; }
     .inline > div { flex: 1; }
-    .fluid-grid {
-      display: none;
-      margin-top: 15px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
     button {
       margin-top: 25px; width: 100%;
       padding: 12px;
@@ -44,29 +38,28 @@
     }
   </style>
   <script>
-    function toggleFluids(value) {
-      document.getElementById('fluidGrid').style.display = value === 'Yes' ? 'grid' : 'none';
-    }
+    function handleSubmit() {
+      const formData = new FormData(document.querySelector('form'));
+      const data = {};
+      formData.forEach((value, key) => { data[key] = value; });
 
-    function handleJobTypeChange(select) {
-      const value = select.value;
-      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment"];
-      disableFields.forEach(id => {
-        const field = document.getElementById(id);
-        if (["Defect", "Daily Checks", "Repair"].includes(value)) {
-          field.disabled = true;
-          field.required = false;
-          field.value = "";
-        } else {
-          field.disabled = false;
-          field.required = true;
-        }
+      fetch("https://script.google.com/macros/s/AKfycbyC3StPOS_lvRGJd1WUaDrWoVm9aTHbMopFAAWo7VvgTVBf2gmyw5BflyXMMyZHzi-Q/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert("Job Card Submitted Successfully!");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("There was an error submitting the form.");
       });
     }
   </script>
 </head>
 <body>
-  <form action="https://script.google.com/macros/s/AKfycbyC3StPOS_lvRGJd1WUaDrWoVm9aTHbMopFAAWo7VvgTVBf2gmyw5BflyXMMyZHzi-Q/exec" method="POST">
+  <form id="jobCardForm" onsubmit="event.preventDefault(); handleSubmit();">
     <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Company Logo" class="logo" />
     <h2>WNCT / GTT Job Card Sign Off</h2>
 
@@ -98,7 +91,7 @@
     </select>
 
     <label>Work Completed *</label>
-    <select name="Work Completed" onchange="handleJobTypeChange(this)" required>
+    <select name="Work Completed" required>
       <option value="">-- Select --</option>
       <option value="A">Inspection A</option>
       <option value="B">Inspection B</option>
@@ -107,46 +100,6 @@
       <option value="Defect">Defect</option>
       <option value="Daily Checks">Daily Checks</option>
     </select>
-
-    <label>PSVAR Check *</label>
-    <select id="PSVAR Check" name="PSVAR Check" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
-
-    <label>Brake Test *</label>
-    <select id="Brake Test" name="Brake Test" required>
-      <option value="">-- Select --</option>
-      <option value="Pass">Pass</option>
-      <option value="Fail">Fail</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
-
-    <label>Wheel Alignment *</label>
-    <select id="Wheel Alignment" name="Wheel Alignment" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
-
-    <label>Was Fluids Used? *</label>
-    <select name="Fluids Used?" onchange="toggleFluids(this.value)" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-
-    <div id="fluidGrid" class="fluid-grid">
-      <input type="number" name="Screenwash (ltr)" placeholder="Screenwash (ltr)">
-      <input type="number" name="Oil (ltr)" placeholder="Oil (ltr)">
-      <input type="number" name="Ad Blue (ltr)" placeholder="Ad Blue (ltr)">
-      <input type="number" name="Brake Fluid (ltr)" placeholder="Brake Fluid (ltr)">
-      <input type="number" name="Gearbox Oil (ltr)" placeholder="Gearbox Oil (ltr)">
-      <input type="number" name="Antifreeze (ltr)" placeholder="Antifreeze (ltr)">
-    </div>
 
     <label>Job Details *</label>
     <textarea name="Work Details" rows="4" required></textarea>
@@ -157,25 +110,6 @@
       <option value="Barry Baxter">Barry Baxter</option>
       <option value="Andrew Cunningham">Andrew Cunningham</option>
       <option value="Workshop Manager">Workshop Manager</option>
-    </select>
-
-    <div class="inline">
-      <div>
-        <label>Hours Allocated *</label>
-        <input type="number" name="Hours Allocated" min="0" required>
-      </div>
-      <div>
-        <label>Minutes Allocated *</label>
-        <input type="number" name="Minutes Allocated" min="0" max="59" required>
-      </div>
-    </div>
-
-    <label>Roadworthiness Status *</label>
-    <select name="Roadworthiness Status" required>
-      <option value="">-- Select --</option>
-      <option value="Roadworthy">Roadworthy</option>
-      <option value="Unroadworthy - Awaiting Repair">Unroadworthy - Awaiting Repair</option>
-      <option value="VOR">VOR</option>
     </select>
 
     <button type="submit">Submit Job Card</button>
