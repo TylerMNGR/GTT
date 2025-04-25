@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,25 +69,9 @@
     }
   </style>
   <script>
-    function toggleConditionalFields(value) {
-      const disableFields = !["Inspection A", "Inspection B", "Inspection C"].includes(value);
-      document.getElementById("psvar").disabled = disableFields;
-      document.getElementById("brake").disabled = disableFields;
-      document.getElementById("wheel").disabled = disableFields;
-      document.getElementById("psvar").required = !disableFields;
-      document.getElementById("brake").required = !disableFields;
-      document.getElementById("wheel").required = !disableFields;
+    function toggleFluids(value) {
+      document.getElementById('fluidGrid').style.display = value === 'Yes' ? 'grid' : 'none';
     }
-
-    window.onload = function () {
-      document.getElementById("workType").addEventListener("change", function () {
-        toggleConditionalFields(this.value);
-      });
-
-      document.getElementById("fluidsUsed").addEventListener("change", function () {
-        document.getElementById("fluidInputs").style.display = this.value === "Yes" ? "grid" : "none";
-      });
-    };
   </script>
 </head>
 <body>
@@ -102,11 +85,11 @@
     <label>Vehicle Mileage *</label>
     <input type="number" name="Vehicle Mileage" required>
 
-    <label>Disc Number and Expiry *</label>
-    <div class="inline">
-      <div><input type="text" name="Disc Number" placeholder="Disc Number" required></div>
-      <div><input type="date" name="Disc Expiry Date" required></div>
-    </div>
+    <label>Disc Number *</label>
+    <input type="text" name="Disc Number" required>
+
+    <label>Disc Expiry Date *</label>
+    <input type="date" name="Disc Expiry Date" required>
 
     <label>Date of Job *</label>
     <input type="date" name="Date of Job" required>
@@ -114,65 +97,59 @@
     <label>Vehicle Type *</label>
     <select name="Vehicle Type" required>
       <option value="">-- Select --</option>
-      <option value="WNCT">WNCT</option>
       <option value="GTT">GTT</option>
+      <option value="WNCT">WNCT</option>
     </select>
 
-    <label>What has been completed? *</label>
-    <select name="Work Completed" id="workType" required>
+    <label>Work Completed *</label>
+    <select name="Work Completed" required>
       <option value="">-- Select --</option>
-      <option value="Inspection A">Inspection A</option>
-      <option value="Inspection B">Inspection B</option>
-      <option value="Inspection C">Inspection C</option>
+      <option value="A">Inspection A</option>
+      <option value="B">Inspection B</option>
+      <option value="C">Inspection C</option>
       <option value="Repair">Repair</option>
       <option value="Defect">Defect</option>
       <option value="Daily Checks">Daily Checks</option>
     </select>
 
-    <label for="psvar">PSVAR Check *</label>
-    <select name="PSVAR Check" id="psvar" required>
+    <label>PSVAR Check *</label>
+    <select name="PSVAR Check" required>
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
       <option value="Not Applicable">Not Applicable</option>
     </select>
 
-    <label for="brake">Brake Test Result *</label>
-    <select name="Brake Test" id="brake" required>
+    <label>Brake Test *</label>
+    <select name="Brake Test" required>
       <option value="">-- Select --</option>
-      <option value="✅ PASS">✅ PASS</option>
-      <option value="❌ FAIL">❌ FAIL</option>
-      <option value="❓ NOT APPLICABLE">❓ NOT APPLICABLE</option>
+      <option value="Pass">Pass</option>
+      <option value="Fail">Fail</option>
+      <option value="Not Applicable">Not Applicable</option>
     </select>
 
-    <label for="wheel">Wheel Alignment *</label>
-    <select name="Wheel Alignment" id="wheel" required>
+    <label>Wheel Alignment *</label>
+    <select name="Wheel Alignment" required>
       <option value="">-- Select --</option>
-      <option value="YES">YES</option>
-      <option value="NO">NO</option>
-      <option value="NOT APPLICABLE">NOT APPLICABLE</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="Not Applicable">Not Applicable</option>
     </select>
 
     <label>Was Fluids Used? *</label>
-    <select name="Fluids Used?" id="fluidsUsed" required>
+    <select name="Fluids Used?" onchange="toggleFluids(this.value)" required>
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
 
-    <div id="fluidInputs" class="fluid-grid">
-      <div><label>Screenwash (ltr)</label><input type="number" name="Screenwash (ltr)" min="0" step="0.1"></div>
-      <div><label>Oil (ltr)</label><input type="number" name="Oil (ltr)" min="0" step="0.1"></div>
-      <div><label>Ad Blue (ltr)</label><input type="number" name="Ad Blue (ltr)" min="0" step="0.1"></div>
-      <div><label>Brake Fluid (ltr)</label><input type="number" name="Brake Fluid (ltr)" min="0" step="0.1"></div>
-      <div><label>Gearbox Oil (ltr)</label><input type="number" name="Gearbox Oil (ltr)" min="0" step="0.1"></div>
-      <div><label>Antifreeze (ltr)</label><input type="number" name="Antifreeze (ltr)" min="0" step="0.1"></div>
-    </div>
-
-    <label>Time Allocated To This Job *</label>
-    <div class="inline">
-      <div><input type="number" name="Hours Allocated" placeholder="Hours" min="0" required></div>
-      <div><input type="number" name="Minutes Allocated" placeholder="Minutes" min="0" max="59" required></div>
+    <div id="fluidGrid" class="fluid-grid">
+      <input type="number" name="Screenwash (ltr)" placeholder="Screenwash (ltr)">
+      <input type="number" name="Oil (ltr)" placeholder="Oil (ltr)">
+      <input type="number" name="Ad Blue (ltr)" placeholder="Ad Blue (ltr)">
+      <input type="number" name="Brake Fluid (ltr)" placeholder="Brake Fluid (ltr)">
+      <input type="number" name="Gearbox Oil (ltr)" placeholder="Gearbox Oil (ltr)">
+      <input type="number" name="Antifreeze (ltr)" placeholder="Antifreeze (ltr)">
     </div>
 
     <label>Job Details *</label>
@@ -186,7 +163,23 @@
       <option value="Workshop Manager">Workshop Manager</option>
     </select>
 
+    <label>Hours Allocated *</label>
+    <input type="number" name="Hours Allocated" min="0" required>
+
+    <label>Minutes Allocated *</label>
+    <input type="number" name="Minutes Allocated" min="0" max="59" required>
+
+    <label>Roadworthiness Status *</label>
+    <div>
+      <input type="radio" name="Roadworthiness Status" value="Roadworthy" required> Roadworthy<br>
+      <input type="radio" name="Roadworthiness Status" value="Unroadworthy - Awaiting Repair"> Unroadworthy - Awaiting Repair<br>
+      <input type="radio" name="Roadworthiness Status" value="VOR"> VOR
+    </div>
+
     <button type="submit">Submit Job Card</button>
+  </form>
+</body>
+</html>
   </form>
 </body>
 </html>
