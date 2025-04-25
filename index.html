@@ -2,107 +2,194 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Card Form</title>
+  <title>WNCT / GTT Job Card Sign Off</title>
   <style>
-    body {
-      background-color: #003366;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      margin: 0;
-    }
-    .logo {
-      max-width: 180px;
-      margin: 0 auto 20px;
-      display: block;
-    }
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
+    body { background-color: #001f3f; color: white; font-family: Arial, sans-serif; padding: 20px; }
     form {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #006400;
+      background-color: #003366;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
+      max-width: 750px;
+      margin: auto;
     }
-    label {
-      font-size: 16px;
-      margin-bottom: 10px;
-      display: block;
+    h2 { text-align: center; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea {
+      width: 100%; padding: 10px; margin-top: 5px;
+      border-radius: 5px; border: none; box-sizing: border-box;
     }
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .inline { display: flex; gap: 10px; }
+    .inline > div { flex: 1; }
+    .fluid-grid {
+      display: none;
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
     button {
+      margin-top: 25px; width: 100%;
+      padding: 12px;
       background-color: #0074D9;
       color: white;
       font-size: 16px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
+      border: none; border-radius: 5px;
       cursor: pointer;
+    }
+    button:hover { background-color: #005fa3; }
+    img.logo {
       display: block;
-      margin: 0 auto;
-    }
-    button:hover {
-      background-color: #005fa3;
-    }
-    .footer-note {
-      font-size: 14px;
-      color: white;
-      margin-top: 40px;
+      max-width: 180px;
+      margin: 0 auto 20px;
     }
   </style>
+  <script>
+    function toggleFluids(value) {
+      document.getElementById('fluidGrid').style.display = value === 'Yes' ? 'grid' : 'none';
+    }
+
+    function handleJobTypeChange(select) {
+      const value = select.value;
+      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment"];
+      disableFields.forEach(id => {
+        const field = document.getElementById(id);
+        if (["Defect", "Daily Checks", "Repair"].includes(value)) {
+          field.disabled = true;
+          field.required = false;
+          field.value = "";
+        } else {
+          field.disabled = false;
+          field.required = true;
+        }
+      });
+    }
+  </script>
 </head>
 <body>
-  <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Go To Town Logo" class="logo">
-  
-  <h1>Job Card Form</h1>
-  
-  <form id="jobCardForm" action="https://script.google.com/macros/s/AKfycbyC3StPOS_lvRGJd1WUaDrWoVm9aTHbMopFAAWo7VvgTVBf2gmyw5BflyXMMyZHzi-Q/exec" method="POST">
-    <label for="vehicleRegistration">Vehicle Registration</label>
-    <input type="text" id="vehicleRegistration" name="Vehicle Registration" required>
+  <form action="https://script.google.com/macros/s/AKfycbzceHyv_xB5DRvMn6L0nFTPq3Xosus_TK9gEn4zcHpt3VgazJ8aUVhI4qbZbrhcVDyj3g/exec" method="POST">
+    <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Company Logo" class="logo" />
+    <h2>WNCT / GTT Job Card Sign Off</h2>
 
-    <label for="vehicleMileage">Vehicle Mileage</label>
-    <input type="number" id="vehicleMileage" name="Vehicle Mileage" required>
+    <label>Vehicle Registration *</label>
+    <input type="text" name="Vehicle Registration" required>
 
-    <label for="discNumber">Disc Number</label>
-    <input type="text" id="discNumber" name="Disc Number" required>
+    <label>Vehicle Mileage *</label>
+    <input type="number" name="Vehicle Mileage" required>
 
-    <label for="discExpiryDate">Disc Expiry Date</label>
-    <input type="date" id="discExpiryDate" name="Disc Expiry Date" required>
+    <div class="inline">
+      <div>
+        <label>Disc Number *</label>
+        <input type="text" name="Disc Number" required>
+      </div>
+      <div>
+        <label>Disc Expiry Date *</label>
+        <input type="date" name="Disc Expiry Date" required>
+      </div>
+    </div>
 
-    <label for="dateOfJob">Date of Job</label>
-    <input type="date" id="dateOfJob" name="Date of Job" required>
+    <label>Date of Job *</label>
+    <input type="date" name="Date of Job" required>
 
-    <label for="vehicleType">Vehicle Type</label>
-    <input type="text" id="vehicleType" name="Vehicle Type" required>
+    <label>Vehicle Type *</label>
+    <select name="Vehicle Type" required>
+      <option value="">-- Select --</option>
+      <option value="GTT">GTT</option>
+      <option value="WNCT">WNCT</option>
+    </select>
 
-    <label for="workCompleted">Work Completed</label>
-    <textarea id="workCompleted" name="Work Completed" rows="4" required></textarea>
+    <label>Work Completed *</label>
+    <select name="Work Completed" onchange="handleJobTypeChange(this)" required>
+      <option value="">-- Select --</option>
+      <option value="A">Inspection A</option>
+      <option value="B">Inspection B</option>
+      <option value="C">Inspection C</option>
+      <option value="Repair">Repair</option>
+      <option value="Defect">Defect</option>
+      <option value="Daily Checks">Daily Checks</option>
+    </select>
 
-    <label for="workDetails">Work Details</label>
-    <textarea id="workDetails" name="Work Details" rows="4" required></textarea>
+    <label>PSVAR Check *</label>
+    <select id="PSVAR Check" name="PSVAR Check" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="Not Applicable">Not Applicable</option>
+    </select>
 
-    <label for="signedOffBy">Signed Off By</label>
-    <select id="signedOffBy" name="Signed Off By" required>
+    <label>Brake Test *</label>
+    <select id="Brake Test" name="Brake Test" required>
+      <option value="">-- Select --</option>
+      <option value="Pass">Pass</option>
+      <option value="Fail">Fail</option>
+      <option value="Not Applicable">Not Applicable</option>
+    </select>
+
+    <label>Wheel Alignment *</label>
+    <select id="Wheel Alignment" name="Wheel Alignment" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="Not Applicable">Not Applicable</option>
+    </select>
+
+    <label>Was Fluids Used? *</label>
+    <select name="Fluids Used?" onchange="toggleFluids(this.value)" required>
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <div id="fluidGrid" class="fluid-grid">
+      <input type="number" name="Screenwash (ltr)" placeholder="Screenwash (ltr)">
+      <input type="number" name="Oil (ltr)" placeholder="Oil (ltr)">
+      <input type="number" name="Ad Blue (ltr)" placeholder="Ad Blue (ltr)">
+      <input type="number" name="Brake Fluid (ltr)" placeholder="Brake Fluid (ltr)">
+      <input type="number" name="Gearbox Oil (ltr)" placeholder="Gearbox Oil (ltr)">
+      <input type="number" name="Antifreeze (ltr)" placeholder="Antifreeze (ltr)">
+    </div>
+
+    <label>Job Details *</label>
+    <textarea name="Work Details" rows="4" required></textarea>
+
+    <label>Job Signed Off By *</label>
+    <select name="Signed Off By" required>
+      <option value="">-- Select --</option>
       <option value="Barry Baxter">Barry Baxter</option>
       <option value="Andrew Cunningham">Andrew Cunningham</option>
       <option value="Workshop Manager">Workshop Manager</option>
     </select>
 
+    <div class="inline">
+      <div>
+        <label>Hours Allocated *</label>
+        <input type="number" name="Hours Allocated" min="0" required>
+      </div>
+      <div>
+        <label>Minutes Allocated *</label>
+        <input type="number" name="Minutes Allocated" min="0" max="59" required>
+      </div>
+    </div>
+
+    <label>Roadworthiness Status *</label>
+    <select name="Roadworthiness Status" required>
+      <option value="">-- Select --</option>
+      <option value="Roadworthy">Roadworthy</option>
+      <option value="Unroadworthy - Awaiting Repair">Unroadworthy - Awaiting Repair</option>
+      <option value="VOR">VOR</option>
+    </select>
+
     <button type="submit">Submit Job Card</button>
   </form>
 
-  <p class="footer-note">If the vehicle is clear for service, please remove from the workshop, and make available.</p>
+  <!-- Job Card Submitted Page -->
+  <div id="thankYouPage" style="display:none;">
+    <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Go To Town Logo" class="logo">
+    <h1>THANK YOU.<br>Your Job Card Has Been Submitted</h1>
+    <div class="box">
+      <p>Have you checked the defect book? If The Vehicle Is VOR, Have you put a red steering wheel cover on?</p>
+    </div>
+    <button onclick="window.location.href='https://tylermngr.github.io/GTT/';">Submit A New Job Card</button>
+    <p class="footer-note">If the vehicle is clear for service, please remove from the workshop, and make available.</p>
+  </div>
 </body>
 </html>
