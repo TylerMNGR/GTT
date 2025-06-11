@@ -50,10 +50,10 @@
 
     function handleJobTypeChange(select) {
       const value = select.value;
-      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment", "Other", ];
+      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment",];
       disableFields.forEach(id => {
         const field = document.getElementById(id);
-        if (["Defect", "Daily Checks", "Repair"].includes(value)) {
+        if (["Defect", "Daily Checks", "Other", "Repair"].includes(value)) {
           field.disabled = true;
           field.required = false;
           field.value = "";
