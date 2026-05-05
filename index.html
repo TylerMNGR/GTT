@@ -37,6 +37,14 @@
       cursor: pointer;
     }
     button:hover { background-color: #005fa3; }
+    
+    /* Style for the new toggle button */
+    .fluid-toggle-btn {
+      background-color: #2ECC40;
+      margin-bottom: 20px;
+    }
+    .fluid-toggle-btn:hover { background-color: #28a745; }
+
     img.logo {
       display: block;
       max-width: 180px;
@@ -50,7 +58,7 @@
 
     function handleJobTypeChange(select) {
       const value = select.value;
-      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment",];
+      const disableFields = ["PSVAR Check", "Brake Test", "Wheel Alignment"];
       disableFields.forEach(id => {
         const field = document.getElementById(id);
         if (["Defect", "Daily Checks", "Other", "Repair"].includes(value)) {
@@ -63,75 +71,127 @@
         }
       });
     }
+
+    function switchToDailyFluids() {
+      const mainContent = document.getElementById('main-form-content');
+      const isHidden = mainContent.style.display === 'none';
+      
+      // Toggle visibility of the bulk of the form
+      mainContent.style.display = isHidden ? 'block' : 'none';
+      
+      // Toggle required attribute so form can still submit
+      const inputs = mainContent.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        if (!isHidden) {
+          input.removeAttribute('required');
+        } else {
+          input.setAttribute('required', '');
+        }
+      });
+
+      // Update button text
+      const btn = document.getElementById('fluidModeBtn');
+      btn.innerText = isHidden ? 'Daily Fluid Checks' : 'Show Full Job Card';
+    }
   </script>
 </head>
 <body>
+
   <form action="https://script.google.com/macros/s/AKfycbxJ7yUVVo5RZJfPL9ZdLHweXBC7CQTORBdm043KSif5VQ3HI_VBFIkbD9mRfG3hAZN5rQ/exec" method="POST">
     <img src="https://www.gtt-online.co.uk/media/2193/logo.png" alt="Company Logo" class="logo" />
     <h2>WNCT / GTT Job Card Sign Off</h2>
 
+    <!-- NEW BUTTON -->
+    <button type="button" id="fluidModeBtn" class="fluid-toggle-btn" onclick="switchToDailyFluids()">CLICK HERE To carry Out Daily Fluid Checks</button>
+
     <label>Vehicle Registration *</label>
     <input type="text" name="Vehicle Registration" required>
 
-    <label>Vehicle Mileage *</label>
-    <input type="number" name="Vehicle Mileage" required>
+    <!-- WRAPPER START: Everything in here will hide -->
+    <div id="main-form-content">
+        <label>Vehicle Mileage *</label>
+        <input type="number" name="Vehicle Mileage" required>
 
-    <div class="inline">
-      <div>
-        <label>Disc Number *</label>
-        <input type="text" name="Disc Number" required>
-      </div>
-      <div>
-        <label>Disc Expiry Date *</label>
-        <input type="date" name="Disc Expiry Date" required>
-      </div>
+        <div class="inline">
+          <div>
+            <label>Disc Number *</label>
+            <input type="text" name="Disc Number" required>
+          </div>
+          <div>
+            <label>Disc Expiry Date *</label>
+            <input type="date" name="Disc Expiry Date" required>
+          </div>
+        </div>
+
+        <label>Date of Job *</label>
+        <input type="date" name="Date of Job" required>
+
+        <label>Vehicle Type *</label>
+        <select name="Vehicle Type" required>
+          <option value="">-- Select --</option>
+          <option value="GTT">GTT</option>
+          <option value="WNCT">WNCT</option>
+        </select>
+
+        <label>Work Completed *</label>
+        <select name="Work Completed" onchange="handleJobTypeChange(this)" required>
+          <option value="">-- Select --</option>
+          <option value="A">Inspection A</option>
+          <option value="B">Inspection B</option>
+          <option value="C">Inspection C</option>
+          <option value="Repair">Repair</option>
+          <option value="Defect">Defect</option> 
+          <option value="Other">Other</option>
+          <option value="Daily Checks">Daily Checks</option>
+        </select>
+
+        <label>PSVAR Check *</label>
+        <select id="PSVAR Check" name="PSVAR Check" required>
+          <option value="">-- Select --</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          <option value="Not Applicable">Not Applicable</option>
+        </select>
+
+        <label>Brake Test *</label>
+        <select id="Brake Test" name="Brake Test" required>
+          <option value="">-- Select --</option>
+          <option value="Pass">Pass</option>
+          <option value="Fail">Fail</option>
+          <option value="Not Applicable">Not Applicable</option>
+        </select>
+
+        <label>Wheel Alignment *</label>
+        <select id="Wheel Alignment" name="Wheel Alignment" required>
+          <option value="">-- Select --</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          <option value="Not Applicable">Not Applicable</option>
+        </select>
+
+        <label>Job Details *</label>
+        <textarea name="Work Details" rows="4" required></textarea>
+
+        <div class="inline">
+          <div>
+            <label>Hours Allocated *</label>
+            <input type="number" name="Hours Allocated" min="0" required>
+          </div>
+          <div>
+            <label>Minutes Allocated *</label>
+            <input type="number" name="Minutes Allocated" min="0" max="59" required>
+          </div>
+        </div>
+
+        <label>Roadworthiness Status *</label>
+        <select name="Roadworthiness Status" required>
+          <option value="">-- Select --</option>
+          <option value="Roadworthy & Fit For Service - Vehicle Released">Roadworthy & Fit For Service - Vehicle Released</option>
+          <option value="Unroadworthy - Awaiting Repair">Unroadworthy - Awaiting Repair</option>
+          <option value="VOR">VOR</option>
+        </select>
     </div>
-
-    <label>Date of Job *</label>
-    <input type="date" name="Date of Job" required>
-
-    <label>Vehicle Type *</label>
-    <select name="Vehicle Type" required>
-      <option value="">-- Select --</option>
-      <option value="GTT">GTT</option>
-      <option value="WNCT">WNCT</option>
-    </select>
-
-    <label>Work Completed *</label>
-    <select name="Work Completed" onchange="handleJobTypeChange(this)" required>
-      <option value="">-- Select --</option>
-      <option value="A">Inspection A</option>
-      <option value="B">Inspection B</option>
-      <option value="C">Inspection C</option>
-      <option value="Repair">Repair</option>
-      <option value="Defect">Defect</option>
-       <option value="Other">Other</option>
-      <option value="Daily Checks">Daily Checks</option>
-    </select>
-
-    <label>PSVAR Check *</label>
-    <select id="PSVAR Check" name="PSVAR Check" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
-
-    <label>Brake Test *</label>
-    <select id="Brake Test" name="Brake Test" required>
-      <option value="">-- Select --</option>
-      <option value="Pass">Pass</option>
-      <option value="Fail">Fail</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
-
-    <label>Wheel Alignment *</label>
-    <select id="Wheel Alignment" name="Wheel Alignment" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-      <option value="Not Applicable">Not Applicable</option>
-    </select>
+    <!-- WRAPPER END -->
 
     <label>Was Fluids Used? *</label>
     <select name="Fluids Used?" onchange="toggleFluids(this.value)" required>
@@ -149,41 +209,18 @@
       <input type="number" name="Antifreeze (ltr)" placeholder="Antifreeze (ltr)">
     </div>
 
-    <label>Job Details *</label>
-    <textarea name="Work Details" rows="4" required></textarea>
-
     <label>Job Signed Off By *</label>
     <select name="Signed Off By" required>
       <option value="">-- Select --</option>
-      <option value="Barry Baxter">Barry Baxter</option>
-       <option value="Jamie Hurry ">Jamie Hurry</option>
+      <option value="Barry Baxter">Barry Baxter</option> 
+      <option value="Jamie Hurry ">Jamie Hurry</option>
       <option value="Swaffham Sean Breed">Swaffham Sean Breed</option>
       <option value="Workshop Manager">Workshop Manager</option>
       <option value="KMS Alan Kirk ">KMS Alan Kirk</option>
       <option value="RJ Auto Services">RJ Auto Services</option>
     </select>
 
-    <div class="inline">
-      <div>
-        <label>Hours Allocated *</label>
-        <input type="number" name="Hours Allocated" min="0" required>
-      </div>
-      <div>
-        <label>Minutes Allocated *</label>
-        <input type="number" name="Minutes Allocated" min="0" max="59" required>
-      </div>
-    </div>
-
-    <label>Roadworthiness Status *</label>
-    <select name="Roadworthiness Status" required>
-      <option value="">-- Select --</option>
-      <option value="Roadworthy & Fit For Service - Vehicle Released">Roadworthy & Fit For Service - Vehicle Released</option>
-      <option value="Unroadworthy - Awaiting Repair">Unroadworthy - Awaiting Repair</option>
-      <option value="VOR">VOR</option>
-    </select>
-
     <button type="submit">Submit Job Card</button>
   </form>
 </body>
 </html>
-This form has been created by Tyler Lewis and is owned by Blu Computers.
